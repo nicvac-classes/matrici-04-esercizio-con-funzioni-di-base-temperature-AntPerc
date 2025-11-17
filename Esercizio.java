@@ -1,41 +1,76 @@
-//LEGGERE LE ISTRUZIONI NEL FILE README.md
-
 import java.util.Scanner;
 import java.util.Random;
 
-// Classe principale, con metodo main
 class Esercizio {
 
     public static Scanner in = new Scanner( System.in );
     public static Random random = new Random();
 
-    //Valori multipli di ritorno per il metodo calcolaMassimo
     public static record Max(int massimo, int rIdx, int cIdx) { }
 
-    // Metodo per calcolare il massimo nella matrice
-    public static Max calcolaMassimo( /*scrivere qui i parametri richiesti dall'esercizio*/ ) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO
+    public static Max calcolaMassimo( int[][] M, int RIGHE, int COLONNE ) {
+        int max = M[0][0];
+        int maxR = 0;
+        int maxC = 0;
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (M[i][j] > max) {
+                    max = M[i][j];
+                    maxR = i;
+                    maxC = j;
+                }
+            }
+        }
+        return new Max(max, maxR, maxC);
     }
 
-    // Metodo per calcolare la media di una colonna
-    public static float calcolaMedia( /*scrivere qui i parametri richiesti dall'esercizio*/ ) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO        
+    public static float calcolaMedia( int[][] M, int r, int c ) {
+        float somma = 0;
+        for (int i = 0; i < r; i++) {
+            somma += M[i][c];
+        }
+        return somma / r;
     }
 
-    // Metodo per riempire la matrice con valori casuali
-    // Già risolto nell'esercizio precedente
-    public static void riempiCasuale( int[][] M, int RIGHE, int COLONNE, int valMin, int valMax) {
+    public static void riempiCasuale( int[][] M, int r, int c, int valMin, int valMax) {
         Random rand = new Random();
-        for (int i=0; i <= RIGHE-1; i=i+1 ) {
-            for (int j=0; j <= COLONNE-1; j=j+1) {
+        for (int i=0; i <= r-1; i=i+1 ) {
+            for (int j=0; j <= c-1; j=j+1) {
                 M[i][j] = valMin + rand.nextInt((valMax+1)-valMin);
             }
         }
     }
 
     public static void main(String args[]) {
-        //SCRIVERE QUI IL CODICE RICHIESTO DALL'ESERCIZIO
+
+        System.out.print("Inserisci numero righe: ");
+        int r= in.nextInt();
+
+        System.out.print("Inserisci numero colonne: ");
+        int c= in.nextInt();
+
+        int[][] M = new int[r][c];
+
+        riempiCasuale(M, r, c, 0, 99);
+
+        System.out.println("\nMatrice generata:");
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                System.out.print(M[i][j] + "\t");
+            }
+            System.out.println();
+        }
+
+        Max risultato = calcolaMassimo(M, r, c);
+        System.out.println("\nValore massimo: " + risultato.massimo());
+        System.out.println("Posizione -> riga: " + risultato.rIdx() +
+                           ", colonna: " + risultato.cIdx());
+
+        System.out.print("\nInserisci indice colonna per calcolare la media: ");
+        int c = in.nextInt();
+
+        float media = calcolaMedia(M, r, c);
+        System.out.println("Media della colonna " + c + ": " + media);
     }
 }
-
-//LEGGERE LE ISTRUZIONI NEL FILE README.md
